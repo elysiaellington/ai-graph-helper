@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { Search } from 'lucide-react';
+import { DialogTitle } from "@/components/ui/dialog";
 
 interface Component {
   brand: string;
@@ -98,11 +99,12 @@ const BottleneckCalculator = () => {
                 {selectedCPU || "Search CPU..."}
               </Button>
               <CommandDialog open={showCPUCommand} onOpenChange={setShowCPUCommand}>
+                <DialogTitle className="sr-only">Search CPU</DialogTitle>
                 <Command className="rounded-lg border shadow-md">
                   <CommandInput placeholder="Search CPU..." />
                   <CommandEmpty>No CPU found.</CommandEmpty>
-                  <CommandGroup>
-                    {cpuData?.map((cpu) => (
+                  <CommandGroup heading="Available CPUs">
+                    {(cpuData || []).map((cpu) => (
                       <CommandItem
                         key={`${cpu.brand} ${cpu.model}`}
                         onSelect={() => {
@@ -137,11 +139,12 @@ const BottleneckCalculator = () => {
                 {selectedGPU || "Search GPU..."}
               </Button>
               <CommandDialog open={showGPUCommand} onOpenChange={setShowGPUCommand}>
+                <DialogTitle className="sr-only">Search GPU</DialogTitle>
                 <Command className="rounded-lg border shadow-md">
                   <CommandInput placeholder="Search GPU..." />
                   <CommandEmpty>No GPU found.</CommandEmpty>
-                  <CommandGroup>
-                    {gpuData?.map((gpu) => (
+                  <CommandGroup heading="Available GPUs">
+                    {(gpuData || []).map((gpu) => (
                       <CommandItem
                         key={`${gpu.brand} ${gpu.model}`}
                         onSelect={() => {
