@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PerformanceGraph } from './PerformanceGraph';
 import { BottleneckIndicator } from './BottleneckIndicator';
 import { Recommendations } from './Recommendations';
 import { Loader2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import { Button } from "@/components/ui/button";
+import { Search } from 'lucide-react';
 
 interface Component {
   brand: string;
@@ -17,6 +26,8 @@ interface Component {
 const BottleneckCalculator = () => {
   const [selectedCPU, setSelectedCPU] = useState<string>('');
   const [selectedGPU, setSelectedGPU] = useState<string>('');
+  const [showCPUCommand, setShowCPUCommand] = useState(false);
+  const [showGPUCommand, setShowGPUCommand] = useState(false);
 
   const { data: cpuData, isLoading: cpuLoading } = useQuery({
     queryKey: ['cpu-data'],
@@ -77,18 +88,35 @@ const BottleneckCalculator = () => {
               <Loader2 className="h-6 w-6 animate-spin" />
             </div>
           ) : (
-            <Select value={selectedCPU} onValueChange={setSelectedCPU}>
-              <SelectTrigger>
-                <SelectValue placeholder="Choose CPU" />
-              </SelectTrigger>
-              <SelectContent>
-                {cpuData?.map((cpu) => (
-                  <SelectItem key={`${cpu.brand} ${cpu.model}`} value={`${cpu.brand} ${cpu.model}`}>
-                    {`${cpu.brand} ${cpu.model}`}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div>
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left font-normal"
+                onClick={() => setShowCPUCommand(true)}
+              >
+                <Search className="mr-2 h-4 w-4" />
+                {selectedCPU || "Search CPU..."}
+              </Button>
+              <CommandDialog open={showCPUCommand} onOpenChange={setShowCPUCommand}>
+                <Command className="rounded-lg border shadow-md">
+                  <CommandInput placeholder="Search CPU..." />
+                  <CommandEmpty>No CPU found.</CommandEmpty>
+                  <CommandGroup>
+                    {cpuData?.map((cpu) => (
+                      <CommandItem
+                        key={`${cpu.brand} ${cpu.model}`}
+                        onSelect={() => {
+                          setSelectedCPU(`${cpu.brand} ${cpu.model}`);
+                          setShowCPUCommand(false);
+                        }}
+                      >
+                        {`${cpu.brand} ${cpu.model}`}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </CommandDialog>
+            </div>
           )}
         </Card>
 
@@ -99,18 +127,35 @@ const BottleneckCalculator = () => {
               <Loader2 className="h-6 w-6 animate-spin" />
             </div>
           ) : (
-            <Select value={selectedGPU} onValueChange={setSelectedGPU}>
-              <SelectTrigger>
-                <SelectValue placeholder="Choose GPU" />
-              </SelectTrigger>
-              <SelectContent>
-                {gpuData?.map((gpu) => (
-                  <SelectItem key={`${gpu.brand} ${gpu.model}`} value={`${gpu.brand} ${gpu.model}`}>
-                    {`${gpu.brand} ${gpu.model}`}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div>
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left font-normal"
+                onClick={() => setShowGPUCommand(true)}
+              >
+                <Search className="mr-2 h-4 w-4" />
+                {selectedGPU || "Search GPU..."}
+              </Button>
+              <CommandDialog open={showGPUCommand} onOpenChange={setShowGPUCommand}>
+                <Command className="rounded-lg border shadow-md">
+                  <CommandInput placeholder="Search GPU..." />
+                  <CommandEmpty>No GPU found.</CommandEmpty>
+                  <CommandGroup>
+                    {gpuData?.map((gpu) => (
+                      <CommandItem
+                        key={`${gpu.brand} ${gpu.model}`}
+                        onSelect={() => {
+                          setSelectedGPU(`${gpu.brand} ${gpu.model}`);
+                          setShowGPUCommand(false);
+                        }}
+                      >
+                        {`${gpu.brand} ${gpu.model}`}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </CommandDialog>
+            </div>
           )}
         </Card>
       </div>
