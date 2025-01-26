@@ -13,6 +13,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { Search } from 'lucide-react';
@@ -99,23 +100,24 @@ const BottleneckCalculator = () => {
                 {selectedCPU || "Search CPU..."}
               </Button>
               <CommandDialog open={showCPUCommand} onOpenChange={setShowCPUCommand}>
-                <DialogTitle className="sr-only">Search CPU</DialogTitle>
                 <Command className="rounded-lg border shadow-md">
                   <CommandInput placeholder="Search CPU..." />
-                  <CommandEmpty>No CPU found.</CommandEmpty>
-                  <CommandGroup heading="Available CPUs">
-                    {(cpuData || []).map((cpu) => (
-                      <CommandItem
-                        key={`${cpu.brand} ${cpu.model}`}
-                        onSelect={() => {
-                          setSelectedCPU(`${cpu.brand} ${cpu.model}`);
-                          setShowCPUCommand(false);
-                        }}
-                      >
-                        {`${cpu.brand} ${cpu.model}`}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
+                  <CommandList>
+                    <CommandEmpty>No CPU found.</CommandEmpty>
+                    <CommandGroup heading="Available CPUs">
+                      {(cpuData || []).map((cpu) => (
+                        <CommandItem
+                          key={`${cpu.brand} ${cpu.model}`}
+                          onSelect={() => {
+                            setSelectedCPU(`${cpu.brand} ${cpu.model}`);
+                            setShowCPUCommand(false);
+                          }}
+                        >
+                          {`${cpu.brand} ${cpu.model}`}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
                 </Command>
               </CommandDialog>
             </div>
@@ -139,23 +141,24 @@ const BottleneckCalculator = () => {
                 {selectedGPU || "Search GPU..."}
               </Button>
               <CommandDialog open={showGPUCommand} onOpenChange={setShowGPUCommand}>
-                <DialogTitle className="sr-only">Search GPU</DialogTitle>
                 <Command className="rounded-lg border shadow-md">
                   <CommandInput placeholder="Search GPU..." />
-                  <CommandEmpty>No GPU found.</CommandEmpty>
-                  <CommandGroup heading="Available GPUs">
-                    {(gpuData || []).map((gpu) => (
-                      <CommandItem
-                        key={`${gpu.brand} ${gpu.model}`}
-                        onSelect={() => {
-                          setSelectedGPU(`${gpu.brand} ${gpu.model}`);
-                          setShowGPUCommand(false);
-                        }}
-                      >
-                        {`${gpu.brand} ${gpu.model}`}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
+                  <CommandList>
+                    <CommandEmpty>No GPU found.</CommandEmpty>
+                    <CommandGroup heading="Available GPUs">
+                      {(gpuData || []).map((gpu) => (
+                        <CommandItem
+                          key={`${gpu.brand} ${gpu.model}`}
+                          onSelect={() => {
+                            setSelectedGPU(`${gpu.brand} ${gpu.model}`);
+                            setShowGPUCommand(false);
+                          }}
+                        >
+                          {`${gpu.brand} ${gpu.model}`}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
                 </Command>
               </CommandDialog>
             </div>
