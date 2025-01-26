@@ -6,10 +6,12 @@ import { BottleneckIndicator } from './BottleneckIndicator';
 import { Recommendations } from './Recommendations';
 import { Loader2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Component {
-  name: string;
-  score: number;
+  brand: string;
+  model: string;
+  benchmark: number;
 }
 
 const BottleneckCalculator = () => {
@@ -19,35 +21,43 @@ const BottleneckCalculator = () => {
   const { data: cpuData, isLoading: cpuLoading } = useQuery({
     queryKey: ['cpu-data'],
     queryFn: async () => {
-      // Simulated data fetch - replace with actual CSV parsing
-      return [
-        { name: 'Intel i9-13900K', score: 95 },
-        { name: 'AMD Ryzen 9 7950X', score: 92 },
-        { name: 'Intel i7-13700K', score: 88 },
-        { name: 'AMD Ryzen 7 7700X', score: 85 },
-      ] as Component[];
+      const { data, error } = await supabase
+        .from('cpu_benchmarks')
+        .select('*')
+        .order('benchmark', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching CPU data:', error);
+        throw error;
+      }
+
+      return data as Component[];
     },
   });
 
   const { data: gpuData, isLoading: gpuLoading } = useQuery({
     queryKey: ['gpu-data'],
     queryFn: async () => {
-      // Simulated data fetch - replace with actual CSV parsing
-      return [
-        { name: 'NVIDIA RTX 4090', score: 98 },
-        { name: 'AMD RX 7900 XTX', score: 94 },
-        { name: 'NVIDIA RTX 4080', score: 90 },
-        { name: 'AMD RX 7900 XT', score: 87 },
-      ] as Component[];
+      const { data, error } = await supabase
+        .from('gpu_benchmarks')
+        .select('*')
+        .order('benchmark', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching GPU data:', error);
+        throw error;
+      }
+
+      return data as Component[];
     },
   });
 
-  const selectedCPUData = cpuData?.find(cpu => cpu.name === selectedCPU);
-  const selectedGPUData = gpuData?.find(gpu => gpu.name === selectedGPU);
+  const selectedCPUData = cpuData?.find(cpu => `${cpu.brand} ${cpu.model}` === selectedCPU);
+  const selectedGPUData = gpuData?.find(gpu => `${gpu.brand} ${gpu.model}` === selectedGPU);
 
   const calculateBottleneck = () => {
     if (!selectedCPUData || !selectedGPUData) return null;
-    const difference = Math.abs(selectedCPUData.score - selectedGPUData.score);
+    const difference = Math.abs(selectedCPUData.benchmark - selectedGPUData.benchmark);
     return Math.min(difference * 2, 100);
   };
 
@@ -73,8 +83,8 @@ const BottleneckCalculator = () => {
               </SelectTrigger>
               <SelectContent>
                 {cpuData?.map((cpu) => (
-                  <SelectItem key={cpu.name} value={cpu.name}>
-                    {cpu.name}
+                  <SelectItem key={`${cpu.brand} ${cpu.model}`} value={`${cpu.brand} ${cpu.model}`}>
+                    {`${cpu.brand} ${cpu.model}`}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -95,8 +105,8 @@ const BottleneckCalculator = () => {
               </SelectTrigger>
               <SelectContent>
                 {gpuData?.map((gpu) => (
-                  <SelectItem key={gpu.name} value={gpu.name}>
-                    {gpu.name}
+                  <SelectItem key={`${gpu.brand} ${gpu.model}`} value={`${gpu.brand} ${gpu.model}`}>
+                    {`${gpu.brand} ${gpu.model}`}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -108,10 +118,10 @@ const BottleneckCalculator = () => {
       {selectedCPUData && selectedGPUData && (
         <div className="space-y-6 animate-fade-in">
           <BottleneckIndicator percentage={bottleneckPercentage || 0} />
-          <PerformanceGraph cpuScore={selectedCPUData.score} gpuScore={selectedGPUData.score} />
+          <PerformanceGraph cpuScore={selectedCPUData.benchmark} gpuScore={selectedGPUData.benchmark} />
           <Recommendations
-            cpuName={selectedCPUData.name}
-            gpuName={selectedGPUData.name}
+            cpuName={`${selectedCPUData.brand} ${selectedCPUData.model}`}
+            gpuName={`${selectedGPUData.brand} ${selectedGPUData.model}`}
             bottleneckPercentage={bottleneckPercentage || 0}
           />
         </div>
