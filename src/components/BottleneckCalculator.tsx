@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { Search } from 'lucide-react';
-import { DialogTitle } from "@/components/ui/dialog";
 
 interface Component {
   brand: string;
@@ -70,8 +69,20 @@ const BottleneckCalculator = () => {
 
   const calculateBottleneck = () => {
     if (!selectedCPUData || !selectedGPUData) return null;
-    const difference = Math.abs(selectedCPUData.benchmark - selectedGPUData.benchmark);
-    return Math.min(difference * 2, 100);
+    
+    const cpuScore = selectedCPUData.benchmark;
+    const gpuScore = selectedGPUData.benchmark;
+    
+    // Calculate the relative performance difference
+    const maxScore = Math.max(cpuScore, gpuScore);
+    const minScore = Math.min(cpuScore, gpuScore);
+    
+    // Calculate bottleneck as a percentage of how much the lower component
+    // is holding back the higher component
+    const bottleneck = ((maxScore - minScore) / maxScore) * 100;
+    
+    // Cap the bottleneck at 100% and ensure it's not negative
+    return Math.min(Math.max(bottleneck, 0), 100);
   };
 
   const bottleneckPercentage = calculateBottleneck();
