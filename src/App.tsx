@@ -13,6 +13,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import Disclaimer from "./pages/Disclaimer";
 import Blog from "./pages/Blog";
+import BlogDashboard from "./pages/BlogDashboard";
+import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +35,8 @@ const App = () => {
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/disclaimer" element={<Disclaimer />} />
                   <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/dashboard" element={<BlogDashboard />} />
+                  <Route path="/auth" element={<Auth />} />
                 </Routes>
               </main>
               <Footer />
