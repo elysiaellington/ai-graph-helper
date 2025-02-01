@@ -9,6 +9,39 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          content: string
+          excerpt: string | null
+          id: string
+          is_published: boolean | null
+          published_at: string | null
+          slug: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          content: string
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean | null
+          published_at?: string | null
+          slug: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          content?: string
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean | null
+          published_at?: string | null
+          slug?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       cpu_benchmarks: {
         Row: {
           benchmark: number
