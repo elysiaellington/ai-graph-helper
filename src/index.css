@@ -49,4 +49,16 @@
                  0 0 20px rgba(0, 242, 254, 0.3),
                  0 0 30px rgba(0, 242, 254, 0.1);
   }
+  .prose {
+    @apply text-gray-300;
+  }
+  .prose h2 {
+    @apply text-white;
+  }
+  .prose strong {
+    @apply text-white;
+  }
+  .prose a {
+    @apply text-neon-blue hover:text-neon-purple transition-colors;
+  }
 }
