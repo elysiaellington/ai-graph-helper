@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/RichTextEditor";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -124,11 +125,7 @@ const BlogNew = () => {
               <FormItem>
                 <FormLabel>Content</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Write your post content here..."
-                    className="min-h-[300px]"
-                    {...field}
-                  />
+                  <RichTextEditor content={field.value} onChange={field.onChange} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
