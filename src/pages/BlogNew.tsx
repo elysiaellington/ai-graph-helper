@@ -1,151 +1,120 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { RichTextEditor } from "@/components/RichTextEditor";
-
-const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  slug: z.string().min(1, "Slug is required"),
-  content: z.string().min(1, "Content is required"),
-  excerpt: z.string().optional(),
-});
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '@/integrations/supabase/client'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { useToast } from '@/hooks/use-toast'
+import RichTextEditor from '@/components/RichTextEditor'
 
 const BlogNew = () => {
-  const { toast } = useToast();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const { toast } = useToast()
+  const [title, setTitle] = useState('')
+  const [slug, setSlug] = useState('')
+  const [content, setContent] = useState('')
+  const [excerpt, setExcerpt] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      slug: "",
-      content: "",
-      excerpt: "",
-    },
-  });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const { error } = await supabase.from("blog_posts").insert([
-        {
-          title: values.title,
-          slug: values.slug,
-          content: values.content,
-          excerpt: values.excerpt || null,
-          is_published: false,
-        },
-      ]);
+      const { error } = await supabase
+        .from('blog_posts')
+        .insert([
+          {
+            title,
+            slug,
+            content,
+            excerpt,
+            is_published: false
+          }
+        ])
 
-      if (error) throw error;
+      if (error) throw error
 
       toast({
         title: "Success",
-        description: "Blog post created successfully",
-      });
-
-      navigate("/blog/dashboard");
+        description: "Post saved as draft",
+      })
+      navigate('/blog-dashboard')
     } catch (error) {
       toast({
-        variant: "destructive",
         title: "Error",
-        description: "Failed to create blog post",
-      });
+        description: "Failed to save post",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-8">Create New Post</h1>
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">New Blog Post</h1>
+        <Button variant="outline" onClick={() => navigate('/blog-dashboard')}>
+          Cancel
+        </Button>
+      </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Post title" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-2">
+          <label htmlFor="title" className="block text-sm font-medium">
+            Title
+          </label>
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
           />
+        </div>
 
-          <FormField
-            control={form.control}
-            name="slug"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Slug</FormLabel>
-                <FormControl>
-                  <Input placeholder="post-url-slug" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+        <div className="space-y-2">
+          <label htmlFor="slug" className="block text-sm font-medium">
+            Slug
+          </label>
+          <Input
+            id="slug"
+            value={slug}
+            onChange={(e) => setSlug(e.target.value)}
+            required
           />
+        </div>
 
-          <FormField
-            control={form.control}
-            name="excerpt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Excerpt (optional)</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Brief description of the post"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+        <div className="space-y-2">
+          <label htmlFor="content" className="block text-sm font-medium">
+            Content
+          </label>
+          <RichTextEditor content={content} onChange={setContent} />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="excerpt" className="block text-sm font-medium">
+            Excerpt (optional)
+          </label>
+          <Textarea
+            id="excerpt"
+            value={excerpt}
+            onChange={(e) => setExcerpt(e.target.value)}
+            rows={3}
           />
+        </div>
 
-          <FormField
-            control={form.control}
-            name="content"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Content</FormLabel>
-                <FormControl>
-                  <RichTextEditor content={field.value} onChange={field.onChange} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <div className="flex justify-end gap-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => navigate("/blog/dashboard")}
-            >
-              Cancel
-            </Button>
-            <Button type="submit">Create Post</Button>
-          </div>
-        </form>
-      </Form>
+        <div className="flex justify-end space-x-4">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : 'Save as Draft'}
+          </Button>
+        </div>
+      </form>
     </div>
-  );
-};
+  )
+}
 
-export default BlogNew;
+export default BlogNew
