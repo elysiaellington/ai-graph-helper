@@ -30,7 +30,7 @@ const FAQ = () => {
       </AccordionItem>
 
       <AccordionItem value="item-4">
-        <AccordionTrigger>How accurate is the bottleneck calculator?</AccordionTrigger>
+        <AccordionTrigger className="text-left">How accurate is the bottleneck calculator?</AccordionTrigger>
         <AccordionContent>
           The calculator provides an estimate based on benchmark scores. Real-world performance can vary depending on specific applications, games, and usage scenarios. Use it as a general guide rather than an absolute measure.
         </AccordionContent>
