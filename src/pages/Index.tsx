@@ -87,10 +87,7 @@ const Index = () => {
       </div>
 
       {/* FAQ Section */}
-      <section className="mb-16 bg-card rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
-        <FAQ />
-      </section>
+      
 
       {/* Final CTA Section */}
       <section className="text-center bg-primary/5 rounded-lg p-8">
