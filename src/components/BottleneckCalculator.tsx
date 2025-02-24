@@ -172,7 +172,7 @@ const BottleneckCalculator = () => {
             Our calculator provides a percentage that indicates the severity of any bottleneck. A result of 0-10% suggests a well-balanced system, 10-20% indicates a minor bottleneck, and anything above 20% suggests a significant bottleneck that might require attention. Consider these results alongside your specific needs and usage patterns when planning upgrades.
           </p>
 
-          <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
+          
           <div className="mb-8">
             <FAQ />
           </div>
