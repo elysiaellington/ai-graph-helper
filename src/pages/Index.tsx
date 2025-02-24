@@ -1,3 +1,4 @@
+
 import BottleneckCalculator from "@/components/BottleneckCalculator";
 import FAQ from "@/components/FAQ";
 
@@ -8,6 +9,7 @@ const Index = () => {
       
       {/* Calculator Section */}
       <section className="mb-16 bg-card rounded-lg shadow-lg p-6">
+        <h2 className="text-2xl font-semibold mb-6">PC Bottleneck Calculator</h2>
         <BottleneckCalculator />
       </section>
 
