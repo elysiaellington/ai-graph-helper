@@ -4,101 +4,106 @@ import FAQ from "@/components/FAQ";
 
 const Index = () => {
   return (
-    <div className="max-w-4xl mx-auto px-4">
-      <section className="mb-12 text-left">
-        <h1 className="text-4xl font-bold mb-6">PC Bottleneck Calculator: Optimize Your Gaming Performance</h1>
-        
-        <div className="prose prose-lg max-w-none mb-8">
-          <p className="mb-4">
-            Welcome to our comprehensive PC Bottleneck Calculator, the ultimate tool for gamers and PC enthusiasts looking to optimize their system performance. Understanding CPU and GPU bottlenecks is crucial for building a balanced gaming PC and ensuring maximum performance in your favorite games.
-          </p>
-
-          <h2 className="text-2xl font-semibold my-4">What is a PC Bottleneck?</h2>
-          <p className="mb-4">
-            A PC bottleneck occurs when one component in your system (typically the CPU or GPU) limits the performance potential of other components. For example, a powerful graphics card paired with an older processor might not reach its full potential because the CPU can't process game data fast enough. Our bottleneck calculator helps identify these performance limitations and provides actionable recommendations for system optimization.
-          </p>
-
-          <h2 className="text-2xl font-semibold my-4">Why Use a Bottleneck Calculator?</h2>
-          <p className="mb-4">
-            Whether you're building a new gaming PC or upgrading your existing system, our bottleneck calculator offers several key benefits:
-          </p>
-          <ul className="list-disc pl-6 mb-4">
-            <li>Identify performance bottlenecks in your current setup</li>
-            <li>Make informed decisions about hardware upgrades</li>
-            <li>Optimize your budget by avoiding unnecessary component mismatches</li>
-            <li>Achieve better gaming performance and system efficiency</li>
-            <li>Plan future upgrades more effectively</li>
-          </ul>
-
-          <h2 className="text-2xl font-semibold my-4">How to Use Our PC Bottleneck Calculator</h2>
-          <p className="mb-4">
-            Using our calculator is simple and straightforward:
-          </p>
-          <ol className="list-decimal pl-6 mb-4">
-            <li>Select your CPU from the dropdown menu</li>
-            <li>Choose your GPU model</li>
-            <li>Input your RAM specifications</li>
-            <li>Review the detailed analysis and recommendations</li>
-          </ol>
-
-          <h2 className="text-2xl font-semibold my-4">Understanding Bottleneck Analysis</h2>
-          <p className="mb-4">
-            Our calculator provides a detailed analysis of your system's performance balance, considering factors such as:
-          </p>
-          <ul className="list-disc pl-6 mb-4">
-            <li>CPU and GPU performance metrics</li>
-            <li>Gaming resolution and settings</li>
-            <li>RAM speed and capacity impact</li>
-            <li>Real-world gaming scenarios</li>
-            <li>System optimization recommendations</li>
-          </ul>
-
-          <h2 className="text-2xl font-semibold my-4">Common Bottleneck Scenarios</h2>
-          <p className="mb-4">
-            Different types of bottlenecks can affect your system performance:
-          </p>
-          <ul className="list-disc pl-6 mb-4">
-            <li>CPU Bottleneck: When your processor limits GPU performance</li>
-            <li>GPU Bottleneck: When your graphics card can't keep up with CPU processing power</li>
-            <li>RAM Bottleneck: When insufficient memory affects system responsiveness</li>
-            <li>Resolution-dependent bottlenecks</li>
-            <li>Game-specific performance limitations</li>
-          </ul>
-        </div>
-      </section>
-
-      <section className="mb-12">
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8 text-center">PC Bottleneck Calculator</h1>
+      
+      {/* Calculator Section */}
+      <section className="mb-16 bg-card rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-semibold mb-6">Calculate Your System's Bottleneck</h2>
         <BottleneckCalculator />
       </section>
 
-      <section className="mb-12">
+      {/* Content Sections */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <div className="lg:col-span-2 space-y-8">
+          <section className="prose prose-lg max-w-none">
+            <h2 className="text-2xl font-semibold">What is a PC Bottleneck?</h2>
+            <p>
+              A PC bottleneck occurs when one component in your system (typically the CPU or GPU) limits the performance potential of other components. For example, a powerful graphics card paired with an older processor might not reach its full potential because the CPU can't process game data fast enough. Our bottleneck calculator helps identify these performance limitations and provides actionable recommendations for system optimization.
+            </p>
+          </section>
+
+          <section className="prose prose-lg max-w-none">
+            <h2 className="text-2xl font-semibold">Why Use a Bottleneck Calculator?</h2>
+            <p>Whether you're building a new gaming PC or upgrading your existing system, our bottleneck calculator offers several key benefits:</p>
+            <ul className="list-disc pl-6">
+              <li>Identify performance bottlenecks in your current setup</li>
+              <li>Make informed decisions about hardware upgrades</li>
+              <li>Optimize your budget by avoiding unnecessary component mismatches</li>
+              <li>Achieve better gaming performance and system efficiency</li>
+              <li>Plan future upgrades more effectively</li>
+            </ul>
+          </section>
+
+          <section className="prose prose-lg max-w-none">
+            <h2 className="text-2xl font-semibold">Understanding Bottleneck Analysis</h2>
+            <p>Our calculator provides a detailed analysis of your system's performance balance, considering factors such as:</p>
+            <ul className="list-disc pl-6">
+              <li>CPU and GPU performance metrics</li>
+              <li>Gaming resolution and settings</li>
+              <li>RAM speed and capacity impact</li>
+              <li>Real-world gaming scenarios</li>
+              <li>System optimization recommendations</li>
+            </ul>
+          </section>
+
+          <section className="prose prose-lg max-w-none">
+            <h2 className="text-2xl font-semibold">Common Bottleneck Scenarios</h2>
+            <p>Different types of bottlenecks can affect your system performance:</p>
+            <ul className="list-disc pl-6">
+              <li>CPU Bottleneck: When your processor limits GPU performance</li>
+              <li>GPU Bottleneck: When your graphics card can't keep up with CPU processing power</li>
+              <li>RAM Bottleneck: When insufficient memory affects system responsiveness</li>
+              <li>Resolution-dependent bottlenecks</li>
+              <li>Game-specific performance limitations</li>
+            </ul>
+          </section>
+        </div>
+
+        <div className="lg:col-span-1">
+          <aside className="bg-card rounded-lg shadow-lg p-6 sticky top-4">
+            <h2 className="text-2xl font-semibold mb-4">Quick Tips</h2>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-2">
+                <span className="text-primary">✓</span>
+                <span>Regular system analysis helps maintain optimal performance</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">✓</span>
+                <span>Consider both CPU and GPU benchmarks when upgrading</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">✓</span>
+                <span>Monitor your system's performance in different games</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">✓</span>
+                <span>Keep your drivers and software up to date</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">✓</span>
+                <span>Balance your budget across all components</span>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <section className="mb-16 bg-card rounded-lg shadow-lg p-6">
         <h2 className="text-2xl font-semibold mb-6">Frequently Asked Questions</h2>
         <FAQ />
       </section>
 
-      <section className="mb-12 text-left">
-        <h2 className="text-2xl font-semibold mb-4">Making the Most of Your PC Hardware</h2>
-        <div className="prose prose-lg max-w-none">
-          <p className="mb-4">
-            Understanding and addressing bottlenecks is essential for maximizing your PC's gaming performance. Our calculator helps you make informed decisions about hardware upgrades and system optimization. Remember that some degree of bottlenecking is normal, and the goal is to minimize its impact on your specific use case.
-          </p>
-          
-          <p className="mb-4">
-            Regular system analysis using our PC bottleneck calculator can help you:
-          </p>
-          <ul className="list-disc pl-6 mb-4">
-            <li>Maintain optimal gaming performance</li>
-            <li>Plan cost-effective upgrades</li>
-            <li>Understand your system's limitations</li>
-            <li>Make informed hardware purchasing decisions</li>
-            <li>Optimize your gaming experience</li>
-          </ul>
-
-          <p>
-            Start using our free PC bottleneck calculator today to optimize your gaming setup and ensure you're getting the best possible performance from your hardware investment.
-          </p>
-        </div>
+      {/* Final CTA Section */}
+      <section className="text-center bg-primary/5 rounded-lg p-8">
+        <h2 className="text-2xl font-semibold mb-4">Optimize Your Gaming Setup Today</h2>
+        <p className="text-lg mb-4">
+          Use our free PC bottleneck calculator to ensure you're getting the best possible performance from your hardware investment.
+        </p>
+        <p className="text-muted-foreground">
+          Remember that some degree of bottlenecking is normal, and the goal is to minimize its impact on your specific use case.
+        </p>
       </section>
     </div>
   );
