@@ -1,12 +1,14 @@
 import BottleneckCalculator from "@/components/BottleneckCalculator";
 import FAQ from "@/components/FAQ";
+
 const Index = () => {
-  return <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">PC Bottleneck Calculator</h1>
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <h2 className="text-4xl font-bold mb-8 text-center">Calculate Your System's Bottleneck</h2>
       
       {/* Calculator Section */}
       <section className="mb-16 bg-card rounded-lg shadow-lg p-6">
-        
+        <h2 className="text-2xl font-semibold mb-6">PC Bottleneck Calculator</h2>
         <BottleneckCalculator />
       </section>
 
@@ -102,6 +104,8 @@ const Index = () => {
           Remember that some degree of bottlenecking is normal, and the goal is to minimize its impact on your specific use case.
         </p>
       </section>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
