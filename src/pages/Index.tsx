@@ -1,3 +1,4 @@
+
 import BottleneckCalculator from "@/components/BottleneckCalculator";
 import FAQ from "@/components/FAQ";
 
