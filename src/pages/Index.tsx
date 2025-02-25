@@ -1,4 +1,3 @@
-
 import BottleneckCalculator from "@/components/BottleneckCalculator";
 import FAQ from "@/components/FAQ";
 
@@ -8,7 +7,6 @@ const Index = () => {
       
       {/* Calculator Section */}
       <section className="mb-16 bg-card rounded-lg shadow-lg p-6">
-        
         <BottleneckCalculator />
       </section>
 
