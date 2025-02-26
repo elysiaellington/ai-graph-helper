@@ -85,15 +85,7 @@ const BottleneckCalculator = () => {
   const bottleneckPercentage = calculateBottleneck();
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-4 neon-glow">
-        PC Bottleneck Calculator
-      </h1>
-      <p className="text-center text-lg mb-8 text-gray-300 max-w-2xl mx-auto">
-        Our free PC Bottleneck Calculator helps you identify performance bottlenecks between your CPU and GPU. 
-        Get instant results and recommendations to optimize your system's performance.
-      </p>
-      
+    <div className="container mx-auto px-4 py-8">      
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card className="glass-card p-6">
