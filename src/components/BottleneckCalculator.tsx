@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { PerformanceGraph } from './PerformanceGraph';
@@ -6,7 +7,6 @@ import { Recommendations } from './Recommendations';
 import { Loader2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import FAQ from './FAQ';
 import {
   Command,
   CommandDialog,
@@ -190,42 +190,6 @@ const BottleneckCalculator = () => {
             />
           </div>
         )}
-
-        <div className="mt-16 prose prose-invert max-w-none">
-          <h2 className="text-2xl font-bold mb-4">Features</h2>
-          <ul className="list-disc pl-6 mb-8">
-            <li>Real-time bottleneck analysis</li>
-            <li>Comprehensive database of CPUs and GPUs</li>
-            <li>Visual performance comparison graphs</li>
-            <li>Detailed upgrade recommendations</li>
-            <li>User-friendly interface</li>
-          </ul>
-
-          <h2 className="text-2xl font-bold mb-4">What Is a Bottleneck Calculator?</h2>
-          <p className="mb-8">
-            A bottleneck calculator is a tool that helps you identify performance limitations in your PC by analyzing the relationship between your CPU (processor) and GPU (graphics card). It determines if one component is holding back the other's potential performance, allowing you to make informed decisions about upgrades.
-          </p>
-
-          <h2 className="text-2xl font-bold mb-4">Understanding CPU and GPU Bottlenecks</h2>
-          <p className="mb-8">
-            A CPU bottleneck occurs when your processor can't keep up with your graphics card, limiting its performance. Conversely, a GPU bottleneck happens when your graphics card struggles to render frames fast enough, despite having a capable processor. Understanding these bottlenecks is crucial for building a balanced system and achieving optimal performance in games and applications.
-          </p>
-
-          <h2 className="text-2xl font-bold mb-4">Real-Life Examples of Reducing PC Bottlenecks</h2>
-          <p className="mb-8">
-            Common scenarios include pairing a high-end GPU with an older CPU, resulting in reduced gaming performance. For example, combining an RTX 4090 with an older i5 processor would create a significant CPU bottleneck. Similarly, using a budget GPU with a high-end CPU might not fully utilize the processor's capabilities for gaming. The key is finding the right balance for your specific use case and budget.
-          </p>
-
-          <h2 className="text-2xl font-bold mb-4">How to Interpret Bottleneck Calculator Results</h2>
-          <p className="mb-8">
-            Our calculator provides a percentage that indicates the severity of any bottleneck. A result of 0-10% suggests a well-balanced system, 10-20% indicates a minor bottleneck, and anything above 20% suggests a significant bottleneck that might require attention. Consider these results alongside your specific needs and usage patterns when planning upgrades.
-          </p>
-
-          <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
-          <div className="mb-8">
-            <FAQ />
-          </div>
-        </div>
       </div>
     </div>
   );
