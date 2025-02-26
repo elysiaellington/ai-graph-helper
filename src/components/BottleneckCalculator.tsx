@@ -7,71 +7,88 @@ import { Loader2 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import FAQ from './FAQ';
-import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { Search } from 'lucide-react';
+
 interface Component {
   brand: string;
   model: string;
   benchmark: number;
 }
+
 const BottleneckCalculator = () => {
   const [selectedCPU, setSelectedCPU] = useState<string>('');
   const [selectedGPU, setSelectedGPU] = useState<string>('');
   const [showCPUCommand, setShowCPUCommand] = useState(false);
   const [showGPUCommand, setShowGPUCommand] = useState(false);
-  const {
-    data: cpuData,
-    isLoading: cpuLoading
-  } = useQuery({
+
+  const { data: cpuData, isLoading: cpuLoading } = useQuery({
     queryKey: ['cpu-data'],
     queryFn: async () => {
-      const {
-        data,
-        error
-      } = await supabase.from('cpu_benchmarks').select('*').order('benchmark', {
-        ascending: false
-      });
+      const { data, error } = await supabase
+        .from('cpu_benchmarks')
+        .select('*')
+        .order('benchmark', { ascending: false });
+
       if (error) {
         console.error('Error fetching CPU data:', error);
         throw error;
       }
+
       return data as Component[];
-    }
+    },
   });
-  const {
-    data: gpuData,
-    isLoading: gpuLoading
-  } = useQuery({
+
+  const { data: gpuData, isLoading: gpuLoading } = useQuery({
     queryKey: ['gpu-data'],
     queryFn: async () => {
-      const {
-        data,
-        error
-      } = await supabase.from('gpu_benchmarks').select('*').order('benchmark', {
-        ascending: false
-      });
+      const { data, error } = await supabase
+        .from('gpu_benchmarks')
+        .select('*')
+        .order('benchmark', { ascending: false });
+
       if (error) {
         console.error('Error fetching GPU data:', error);
         throw error;
       }
+
       return data as Component[];
-    }
+    },
   });
+
   const selectedCPUData = cpuData?.find(cpu => `${cpu.brand} ${cpu.model}` === selectedCPU);
   const selectedGPUData = gpuData?.find(gpu => `${gpu.brand} ${gpu.model}` === selectedGPU);
+
   const calculateBottleneck = () => {
     if (!selectedCPUData || !selectedGPUData) return null;
+    
     const cpuScore = selectedCPUData.benchmark;
     const gpuScore = selectedGPUData.benchmark;
+    
     const maxScore = Math.max(cpuScore, gpuScore);
     const minScore = Math.min(cpuScore, gpuScore);
-    const bottleneck = (maxScore - minScore) / maxScore * 100;
+    
+    const bottleneck = ((maxScore - minScore) / maxScore) * 100;
+    
     return Math.min(Math.max(bottleneck, 0), 100);
   };
+
   const bottleneckPercentage = calculateBottleneck();
-  return <div className="container mx-auto px-4 py-8">
-      <h1 className="font-bold text-center mb-4 neon-glow text-3xl">Calculate Your System's Bottleneck</h1>
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold text-center mb-4 neon-glow">
+        PC Bottleneck Calculator
+      </h1>
       <p className="text-center text-lg mb-8 text-gray-300 max-w-2xl mx-auto">
         Our free PC Bottleneck Calculator helps you identify performance bottlenecks between your CPU and GPU. 
         Get instant results and recommendations to optimize your system's performance.
@@ -81,10 +98,17 @@ const BottleneckCalculator = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card className="glass-card p-6">
             <h2 className="text-xl font-semibold mb-4">Select CPU</h2>
-            {cpuLoading ? <div className="flex items-center justify-center p-4">
+            {cpuLoading ? (
+              <div className="flex items-center justify-center p-4">
                 <Loader2 className="h-6 w-6 animate-spin" />
-              </div> : <div>
-                <Button variant="outline" className="w-full justify-start text-left font-normal" onClick={() => setShowCPUCommand(true)}>
+              </div>
+            ) : (
+              <div>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                  onClick={() => setShowCPUCommand(true)}
+                >
                   <Search className="mr-2 h-4 w-4" />
                   {selectedCPU || "Search CPU..."}
                 </Button>
@@ -94,25 +118,38 @@ const BottleneckCalculator = () => {
                     <CommandList>
                       <CommandEmpty>No CPU found.</CommandEmpty>
                       <CommandGroup heading="Available CPUs">
-                        {(cpuData || []).map(cpu => <CommandItem key={`${cpu.brand} ${cpu.model}`} onSelect={() => {
-                      setSelectedCPU(`${cpu.brand} ${cpu.model}`);
-                      setShowCPUCommand(false);
-                    }}>
+                        {(cpuData || []).map((cpu) => (
+                          <CommandItem
+                            key={`${cpu.brand} ${cpu.model}`}
+                            onSelect={() => {
+                              setSelectedCPU(`${cpu.brand} ${cpu.model}`);
+                              setShowCPUCommand(false);
+                            }}
+                          >
                             {`${cpu.brand} ${cpu.model}`}
-                          </CommandItem>)}
+                          </CommandItem>
+                        ))}
                       </CommandGroup>
                     </CommandList>
                   </Command>
                 </CommandDialog>
-              </div>}
+              </div>
+            )}
           </Card>
 
           <Card className="glass-card p-6">
             <h2 className="text-xl font-semibold mb-4">Select GPU</h2>
-            {gpuLoading ? <div className="flex items-center justify-center p-4">
+            {gpuLoading ? (
+              <div className="flex items-center justify-center p-4">
                 <Loader2 className="h-6 w-6 animate-spin" />
-              </div> : <div>
-                <Button variant="outline" className="w-full justify-start text-left font-normal" onClick={() => setShowGPUCommand(true)}>
+              </div>
+            ) : (
+              <div>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start text-left font-normal"
+                  onClick={() => setShowGPUCommand(true)}
+                >
                   <Search className="mr-2 h-4 w-4" />
                   {selectedGPU || "Search GPU..."}
                 </Button>
@@ -122,25 +159,37 @@ const BottleneckCalculator = () => {
                     <CommandList>
                       <CommandEmpty>No GPU found.</CommandEmpty>
                       <CommandGroup heading="Available GPUs">
-                        {(gpuData || []).map(gpu => <CommandItem key={`${gpu.brand} ${gpu.model}`} onSelect={() => {
-                      setSelectedGPU(`${gpu.brand} ${gpu.model}`);
-                      setShowGPUCommand(false);
-                    }}>
+                        {(gpuData || []).map((gpu) => (
+                          <CommandItem
+                            key={`${gpu.brand} ${gpu.model}`}
+                            onSelect={() => {
+                              setSelectedGPU(`${gpu.brand} ${gpu.model}`);
+                              setShowGPUCommand(false);
+                            }}
+                          >
                             {`${gpu.brand} ${gpu.model}`}
-                          </CommandItem>)}
+                          </CommandItem>
+                        ))}
                       </CommandGroup>
                     </CommandList>
                   </Command>
                 </CommandDialog>
-              </div>}
+              </div>
+            )}
           </Card>
         </div>
 
-        {selectedCPUData && selectedGPUData && <div className="space-y-6 animate-fade-in">
+        {selectedCPUData && selectedGPUData && (
+          <div className="space-y-6 animate-fade-in">
             <BottleneckIndicator percentage={bottleneckPercentage || 0} />
             <PerformanceGraph cpuScore={selectedCPUData.benchmark} gpuScore={selectedGPUData.benchmark} />
-            <Recommendations cpuName={`${selectedCPUData.brand} ${selectedCPUData.model}`} gpuName={`${selectedGPUData.brand} ${selectedGPUData.model}`} bottleneckPercentage={bottleneckPercentage || 0} />
-          </div>}
+            <Recommendations
+              cpuName={`${selectedCPUData.brand} ${selectedCPUData.model}`}
+              gpuName={`${selectedGPUData.brand} ${selectedGPUData.model}`}
+              bottleneckPercentage={bottleneckPercentage || 0}
+            />
+          </div>
+        )}
 
         <div className="mt-16 prose prose-invert max-w-none">
           <h2 className="text-2xl font-bold mb-4">Features</h2>
@@ -172,12 +221,14 @@ const BottleneckCalculator = () => {
             Our calculator provides a percentage that indicates the severity of any bottleneck. A result of 0-10% suggests a well-balanced system, 10-20% indicates a minor bottleneck, and anything above 20% suggests a significant bottleneck that might require attention. Consider these results alongside your specific needs and usage patterns when planning upgrades.
           </p>
 
-          
+          <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
           <div className="mb-8">
             <FAQ />
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default BottleneckCalculator;

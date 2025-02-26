@@ -1,41 +1,38 @@
-
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const FAQ = () => {
   return (
-    <Accordion type="single" collapsible>
+    <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
         <AccordionTrigger>What is a CPU/GPU bottleneck?</AccordionTrigger>
         <AccordionContent>
-          A bottleneck occurs when one component (CPU or GPU) limits the performance of the other. For example, if your CPU is too weak compared to your GPU, it may not be able to process game data fast enough to let the GPU run at its full potential.
+          A bottleneck occurs when one component (either CPU or GPU) limits the performance of the other. This happens when one component can process data faster than the other can provide it, resulting in reduced overall system performance.
         </AccordionContent>
       </AccordionItem>
 
       <AccordionItem value="item-2">
-        <AccordionTrigger>How do I know if I have a bottleneck?</AccordionTrigger>
+        <AccordionTrigger>How do I fix a bottleneck?</AccordionTrigger>
         <AccordionContent>
-          Common signs include: low GPU or CPU usage while the other is at high usage, stuttering in games, or lower performance than expected. Our calculator can help identify potential bottlenecks in your system.
+          To fix a bottleneck, you'll need to upgrade the component that's causing it. If your CPU is bottlenecking, consider upgrading to a more powerful processor. If it's your GPU, upgrading to a better graphics card might help. Always check compatibility before upgrading.
         </AccordionContent>
       </AccordionItem>
 
       <AccordionItem value="item-3">
-        <AccordionTrigger>What percentage of bottleneck is acceptable?</AccordionTrigger>
+        <AccordionTrigger>Is a small bottleneck normal?</AccordionTrigger>
         <AccordionContent>
-          A bottleneck under 10% is generally considered acceptable. Between 10-20% might need attention depending on your use case. Anything above 20% usually indicates a significant mismatch that should be addressed.
+          Yes, it's normal to have a small bottleneck (5-10%). Perfect balance is rare and often unnecessary. Focus on achieving performance that meets your specific needs rather than pursuing perfect balance.
         </AccordionContent>
       </AccordionItem>
 
       <AccordionItem value="item-4">
-        <AccordionTrigger>How can I fix a bottleneck?</AccordionTrigger>
+        <AccordionTrigger className="text-left">How accurate is the bottleneck calculator?</AccordionTrigger>
         <AccordionContent>
-          The solution depends on the type of bottleneck. Common fixes include: upgrading the bottlenecking component, adjusting game settings, or ensuring your drivers are up to date. Our calculator provides specific recommendations based on your system.
-        </AccordionContent>
-      </AccordionItem>
-
-      <AccordionItem value="item-5">
-        <AccordionTrigger>Does resolution affect bottlenecking?</AccordionTrigger>
-        <AccordionContent>
-          Yes, higher resolutions typically put more load on the GPU and less on the CPU. This means a CPU bottleneck might be less noticeable at 4K resolution compared to 1080p.
+          The calculator provides an estimate based on benchmark scores. Real-world performance can vary depending on specific applications, games, and usage scenarios. Use it as a general guide rather than an absolute measure.
         </AccordionContent>
       </AccordionItem>
     </Accordion>
